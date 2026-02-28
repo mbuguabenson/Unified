@@ -914,7 +914,7 @@ export default class SmartTradingStore {
                 currency: string;
                 duration: number;
                 duration_unit: string;
-                symbol: string;
+                underlying_symbol: string;
                 barrier?: number;
             };
 
@@ -926,7 +926,7 @@ export default class SmartTradingStore {
                 currency: this.root_store.client.currency || 'USD',
                 duration: 1,
                 duration_unit: 't',
-                symbol,
+                underlying_symbol: symbol,
             };
 
             if (barrier !== undefined) {
@@ -1507,7 +1507,7 @@ export default class SmartTradingStore {
                     currency: this.root_store.client.currency || 'USD',
                     duration: strategy.ticks,
                     duration_unit: 't',
-                    symbol: this.symbol,
+                    underlying_symbol: this.symbol,
                     ...(['DIGITOVER', 'DIGITUNDER', 'DIGITMATCH', 'DIGITDIFF'].includes(trade_type || '') &&
                     prediction !== undefined
                         ? { barrier: String(prediction) }
@@ -1647,7 +1647,7 @@ export default class SmartTradingStore {
                 currency: this.root_store.client.currency || 'USD',
                 duration: 1,
                 duration_unit: 't',
-                symbol,
+                underlying_symbol: symbol,
             };
 
             if (prediction !== undefined) {
@@ -1961,7 +1961,7 @@ export default class SmartTradingStore {
                 currency: this.root_store.client.currency || 'USD',
                 duration,
                 duration_unit: 't',
-                symbol: this.symbol,
+                underlying_symbol: this.symbol,
                 ...(prediction !== undefined ? { barrier: String(prediction) } : {}),
             });
 

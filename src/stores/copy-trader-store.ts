@@ -233,7 +233,7 @@ export default class CopyTraderStore {
                         currency: target.currency || 'USD',
                         duration: 1,
                         duration_unit: 't',
-                        symbol: contract.underlying,
+                        underlying_symbol: contract.underlying,
                         barrier: contract.barrier,
                     };
 
@@ -471,7 +471,7 @@ export default class CopyTraderStore {
                 currency: currency,
                 duration: 1,
                 duration_unit: 't',
-                symbol: contract.underlying,
+                underlying_symbol: contract.underlying,
                 barrier: contract.barrier,
             };
 

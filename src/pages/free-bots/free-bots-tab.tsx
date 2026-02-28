@@ -1,9 +1,98 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useFreeBots } from '@/hooks/use-free-bots';
 import { useStore } from '@/hooks/useStore';
 import TechBackground from '@/components/shared_ui/tech-background/tech-background';
+import { TDigitStat } from '@/stores/analysis-store';
 import './free-bots-tab.scss';
+
+const LiveMarketAnalysis = observer(() => {
+    const { analysis } = useStore();
+    const { 
+        digit_stats, 
+        last_digit, 
+        current_price, 
+        symbol, 
+        markets, 
+        is_subscribing,
+    } = analysis;
+
+    useEffect(() => {
+        analysis.fetchMarkets();
+        analysis.subscribeToTicks();
+        return () => {
+            analysis.unsubscribeFromTicks();
+        };
+    }, [analysis]);
+
+    const handleMarketChange = (newSymbol: string) => {
+        analysis.setSymbol(newSymbol);
+    };
+
+    const availableMarkets = markets.flatMap(group => group.items);
+
+    return (
+        <div className='live-analysis-card'>
+            <div className='analysis-header'>
+                <div className='title-area'>
+                    <h3>Neural Market Feed</h3>
+                    <div className='live-pulse'>
+                        <span className='pulse-dot' />
+                        LIVE
+                    </div>
+                </div>
+                <div className='market-selector-wrapper'>
+                    <select 
+                        value={symbol} 
+                        onChange={(e) => handleMarketChange(e.target.value)}
+                        className='nexus-select'
+                        disabled={is_subscribing}
+                    >
+                        {availableMarkets.map(m => (
+                            <option key={m.value} value={m.value}>{m.label}</option>
+                        ))}
+                    </select>
+                </div>
+            </div>
+
+            <div className='analysis-stats'>
+                <div className='stat-item price'>
+                    <span className='label'>SPOT PRICE</span>
+                    <span className='value'>{is_subscribing ? 'SYNCHRONIZING...' : current_price}</span>
+                </div>
+                <div className='stat-item digit'>
+                    <span className='label'>LAST DIGIT</span>
+                    <span className={`value digit-val ${last_digit !== null && last_digit % 2 === 0 ? 'even' : 'odd'}`}>
+                        {is_subscribing ? '--' : last_digit}
+                    </span>
+                </div>
+            </div>
+
+            <div className='digit-distribution'>
+                <span className='dist-label'>Digit Frequency (Last 1000 Ticks)</span>
+                <div className='dist-grid'>
+                    {digit_stats.map((stat: TDigitStat) => (
+                        <div key={stat.digit} className={`dist-bar-wrapper ${stat.digit === last_digit ? 'active' : ''}`}>
+                            <div className='dist-bar-meta'>
+                                <span className='digit-num'>{stat.digit}</span>
+                                <span className='digit-pct'>{stat.percentage.toFixed(1)}%</span>
+                            </div>
+                            <div className='dist-bar-outer'>
+                                <div 
+                                    className='dist-bar-inner' 
+                                    style={{ 
+                                        '--bar-height': `${Math.min(stat.percentage * 5, 100)}%`,
+                                        background: stat.digit === last_digit ? '#fff' : stat.digit % 2 === 0 ? '#3b82f6' : '#ec4899'
+                                    } as React.CSSProperties} 
+                                />
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+});
 
 const BotCard = ({ bot, onLoad }: { bot: any; onLoad: (bot: any) => void }) => {
     // Convert hex to rgb for CSS variable
@@ -71,6 +160,8 @@ const FreeBotsTab = observer(() => {
                 <h2>Nexus Strategies</h2>
                 <p>Advanced algorithmic trading solutions for the modern market.</p>
             </div>
+
+            <LiveMarketAnalysis />
 
             <div className='free-bots-tab__categories'>
                 {categories.map(category => (

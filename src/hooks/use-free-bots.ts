@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react';
+import { botNotification } from '@/components/bot-notification/bot-notification';
 import { FREE_BOTS_DATA } from '../pages/free-bots/free-bots-data';
 import { useStore } from './useStore';
 
@@ -16,7 +17,7 @@ export const useFreeBots = () => {
             setIsLoading(true);
             try {
                 // Fetch the XML from the server or local path
-                const response = await fetch(bot.xmlPath);
+                const response = await fetch(encodeURI(bot.xmlPath));
                 if (!response.ok) {
                     throw new Error(`Failed to fetch bot XML: ${response.status} ${response.statusText}`);
                 }
@@ -45,18 +46,33 @@ export const useFreeBots = () => {
                     timestamp: Date.now(),
                 };
 
+                // Navigate to Bot Builder tab first to ensure workspace is mounted
+                dashboard.setActiveTab(1);
+
+                // Wait for Blockly workspace to be ready (up to 2 seconds)
+                let retries = 0;
+                while (!window.Blockly?.derivWorkspace && retries < 20) {
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                    retries++;
+                }
+
+                if (!window.Blockly?.derivWorkspace) {
+                    throw new Error('Blockly workspace failed to initialize. Please try again.');
+                }
+
                 // Load into Blockly workspace via load_modal
                 await load_modal.loadStrategyToBuilder(strategy);
 
-                // Navigate to Bot Builder tab
-                dashboard.setActiveTab(1);
-
+                botNotification(`Successfully loaded bot: ${bot.name}`);
                 console.log(`Successfully loaded bot: ${bot.name}`);
             } catch (error: unknown) {
                 const errorMessage = error instanceof Error ? error.message : 'Unknown error';
                 console.error('Error loading bot:', error);
-                // Show user-friendly error
-                alert(`Failed to load bot "${bot.name}": ${errorMessage}`);
+
+                // Show user-friendly notification instead of alert
+                botNotification(`Failed to load bot "${bot.name}": ${errorMessage}`, undefined, {
+                    type: 'error' as any,
+                });
             } finally {
                 setIsLoading(false);
             }

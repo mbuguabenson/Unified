@@ -19,12 +19,16 @@ export const usePortfolio = (subscribe: boolean = true) => {
         setError(null);
 
         const request = { portfolio: 1, subscribe: subscribe ? 1 : 0 };
-        
+
         const unsubscribe = derivApiService.subscribe(request, (data: TDerivResponse) => {
             if (data.error) {
                 setError(data.error.message);
             } else if (data.portfolio) {
-                setPortfolio(data.portfolio.contracts || []);
+                const mappedContracts = (data.portfolio.contracts || []).map((c: any) => ({
+                    ...c,
+                    symbol: c.underlying_symbol || c.symbol,
+                }));
+                setPortfolio(mappedContracts);
             }
             setIsLoading(false);
         });

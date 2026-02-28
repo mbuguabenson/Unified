@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { tabs_title } from '@/constants/load-modal';
 import { useStore } from '@/hooks/useStore';
@@ -7,7 +8,6 @@ import { useDevice } from '@deriv-com/ui';
 import { rudderStackSendSwitchLoadStrategyTabEvent } from '../../analytics/rudderstack-bot-builder';
 import { rudderStackSendCloseEvent } from '../../analytics/rudderstack-common-events';
 import { LOAD_MODAL_TABS } from '../../analytics/utils';
-import { useLocation, useNavigate } from 'react-router-dom';
 import MobileFullPageModal from '../shared_ui/mobile-full-page-modal';
 import Modal from '../shared_ui/modal';
 import Tabs from '../shared_ui/tabs';
@@ -40,14 +40,17 @@ const LoadModal: React.FC = observer(() => {
         location,
     };
 
-    const handleTabItemClick = (active_index: number) => {
-        setActiveTabIndex(active_index);
+    const handleTabItemClick = (idx: number) => {
+        setActiveTabIndex(idx);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         rudderStackSendSwitchLoadStrategyTabEvent({
-            load_strategy_tab: LOAD_MODAL_TABS[active_index + (!isDesktop ? 1 : 0)],
+            load_strategy_tab: LOAD_MODAL_TABS[idx + (!isDesktop ? 1 : 0)],
         } as any);
     };
 
     if (!isDesktop) {
+        const is_file_loaded_mobile = !!loaded_local_file && tab_name === tabs_title.TAB_LOCAL;
+
         return (
             <MobileFullPageModal
                 is_modal_open={is_load_modal_open}
@@ -56,14 +59,22 @@ const LoadModal: React.FC = observer(() => {
                 onClickClose={() => {
                     setPreviewOnPopup(false);
                     toggleLoadModal();
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     rudderStackSendCloseEvent({
                         subform_name: 'load_strategy',
                         load_strategy_tab: LOAD_MODAL_TABS[active_index + 1],
                     } as any);
                 }}
                 height_offset='80px'
+                renderPageFooterChildren={is_file_loaded_mobile ? () => <LocalFooter /> : undefined}
             >
-                <Tabs active_index={active_index} onTabItemClick={handleTabItemClick} top history={historyShim as any}>
+                <Tabs
+                    active_index={active_index}
+                    onTabItemClick={handleTabItemClick}
+                    top
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    history={historyShim as any}
+                >
                     <div label={localize('Local')}>
                         <Local />
                     </div>
@@ -88,6 +99,7 @@ const LoadModal: React.FC = observer(() => {
             toggleModal={() => {
                 toggleLoadModal();
                 if (LOAD_MODAL_TABS[active_index]) {
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     rudderStackSendCloseEvent({
                         subform_name: 'load_strategy',
                         load_strategy_tab: LOAD_MODAL_TABS[active_index],
