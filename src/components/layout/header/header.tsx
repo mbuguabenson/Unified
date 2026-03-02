@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import { useCallback } from 'react';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
@@ -13,9 +12,8 @@ import { useStore } from '@/hooks/useStore';
 import useTMB from '@/hooks/useTMB';
 import { clearAuthData } from '@/utils/auth-utils';
 import { LegacyWhatsappIcon } from '@deriv/quill-icons/Legacy';
-import { StandaloneCircleUserRegularIcon, StandaloneGearRegularIcon } from '@deriv/quill-icons/Standalone';
 import { Localize, useTranslations } from '@deriv-com/translations';
-import { Header, useDevice, Wrapper, Tooltip } from '@deriv-com/ui';
+import { Header, useDevice, Wrapper } from '@deriv-com/ui';
 import { AppLogo } from '../app-logo';
 import AccountsInfoLoader from './account-info-loader';
 import AccountSwitcher from './account-switcher';
@@ -96,28 +94,6 @@ const AppHeader = observer(({ isAuthenticating }: TAppHeaderProps) => {
 
                     <AccountSwitcher activeAccount={activeAccount} />
 
-                    {isDesktop && (
-                        <div className="flex items-center gap-4 ml-4">
-                            <Tooltip
-                                tooltipContent={localize('Admin Panel')}
-                                tooltipPosition='bottom'
-                                className='app-header__account-settings'
-                            >
-                                <Link to="/admin">
-                                    <StandaloneGearRegularIcon className='app-header__profile_icon' />
-                                </Link>
-                            </Tooltip>
-                            <Tooltip
-                                tooltipContent={localize('Account Dashboard')}
-                                tooltipPosition='bottom'
-                                className='app-header__account-settings'
-                            >
-                                <Link to="/account">
-                                    <StandaloneCircleUserRegularIcon className='app-header__profile_icon' />
-                                </Link>
-                            </Tooltip>
-                        </div>
-                    )}
                 </>
             );
         } else {
