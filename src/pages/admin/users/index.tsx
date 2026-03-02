@@ -1,13 +1,13 @@
-import React, { useState, useMemo } from 'react';
-import { observer } from 'mobx-react-lite';
+import React, { useMemo,useState } from 'react';
 import classNames from 'classnames';
+import { observer } from 'mobx-react-lite';
 import {
+    LabelPairedArrowDownCaptionRegularIcon,
+    LabelPairedMoneyCaptionRegularIcon,
+    LabelPairedPlusCaptionRegularIcon,
     LabelPairedSearchCaptionRegularIcon,
     LabelPairedUserEditCaptionRegularIcon,
     LabelPairedUserSlashCaptionRegularIcon,
-    LabelPairedMoneyCaptionRegularIcon,
-    LabelPairedPlusCaptionRegularIcon,
-    LabelPairedArrowDownCaptionRegularIcon,
 } from '@deriv/quill-icons/LabelPaired';
 
 const UsersManagement = observer(() => {

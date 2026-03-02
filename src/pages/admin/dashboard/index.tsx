@@ -1,28 +1,28 @@
+import React from 'react';
 import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
-import React from 'react';
 import {
     Area,
     AreaChart,
     CartesianGrid,
     Cell,
+    Pie,
+    PieChart,
     ResponsiveContainer,
     Tooltip,
     TooltipProps,
     XAxis,
     YAxis,
-    PieChart,
-    Pie,
 } from 'recharts';
 import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 import { useStore } from '@/hooks/useStore';
 import {
-    LabelPairedUsersCaptionRegularIcon,
-    LabelPairedMoneyCaptionRegularIcon,
-    LabelPairedChartLineCaptionRegularIcon,
     LabelPairedActivityCaptionRegularIcon,
-    LabelPairedArrowUpCaptionRegularIcon,
     LabelPairedArrowDownCaptionRegularIcon,
+    LabelPairedArrowUpCaptionRegularIcon,
+    LabelPairedChartLineCaptionRegularIcon,
+    LabelPairedMoneyCaptionRegularIcon,
+    LabelPairedUsersCaptionRegularIcon,
 } from '@deriv/quill-icons/LabelPaired';
 
 const CustomTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameType>) => {
@@ -47,7 +47,17 @@ const CustomTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameT
     return null;
 };
 
-const KPICard = ({ title, value, trend, icon: Icon, color, percentage, detail }: any) => (
+interface KPICardProps {
+    title: string;
+    value: string | number;
+    trend: 'up' | 'down';
+    icon: React.ComponentType<{ className?: string }>;
+    color: string;
+    percentage: string | number;
+    detail: string;
+}
+
+const KPICard = ({ title, value, trend, icon: Icon, color, percentage, detail }: KPICardProps) => (
     <div className="glass-card p-8 rounded-[2.5rem] relative overflow-hidden group hover:scale-[1.02] transition-all duration-500 border border-white/5 hover:border-white/10 shadow-2xl">
         <div className={classNames(
             "absolute -top-24 -right-24 w-48 h-48 blur-[60px] opacity-20 group-hover:opacity-30 transition-opacity duration-700",

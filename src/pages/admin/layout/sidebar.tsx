@@ -3,19 +3,19 @@ import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@/hooks/useStore';
 import {
-    LabelPairedHouseCaptionRegularIcon,
-    LabelPairedUsersCaptionRegularIcon,
-    LabelPairedPuzzlePieceTwoCaptionBoldIcon,
-    LabelPairedChartLineCaptionRegularIcon,
-    LabelPairedSlidersCaptionRegularIcon,
-    LabelPairedMoneyCaptionRegularIcon,
-    LabelPairedEnvelopeCaptionRegularIcon,
-    LabelPairedBellCaptionRegularIcon,
-    LabelPairedSquareExclamationCaptionRegularIcon,
-    LabelPairedGearCaptionRegularIcon,
     LabelPairedActivityCaptionRegularIcon,
-    LabelPairedCircleDotCaptionRegularIcon,
+    LabelPairedBellCaptionRegularIcon,
     LabelPairedBoxCaptionRegularIcon,
+    LabelPairedChartLineCaptionRegularIcon,
+    LabelPairedCircleDotCaptionRegularIcon,
+    LabelPairedEnvelopeCaptionRegularIcon,
+    LabelPairedGearCaptionRegularIcon,
+    LabelPairedHouseCaptionRegularIcon,
+    LabelPairedMoneyCaptionRegularIcon,
+    LabelPairedPuzzlePieceTwoCaptionBoldIcon,
+    LabelPairedSlidersCaptionRegularIcon,
+    LabelPairedSquareExclamationCaptionRegularIcon,
+    LabelPairedUsersCaptionRegularIcon,
 } from '@deriv/quill-icons/LabelPaired';
 
 const Sidebar = observer(() => {

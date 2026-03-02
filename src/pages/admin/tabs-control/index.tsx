@@ -1,16 +1,16 @@
 import React from 'react';
+import classNames from 'classnames';
 import { observer } from 'mobx-react-lite';
 import { useStore } from '@/hooks/useStore';
-import classNames from 'classnames';
 import {
-    LabelPairedTerminalCaptionRegularIcon,
     LabelPairedActivityCaptionRegularIcon,
-    LabelPairedChartLineCaptionRegularIcon,
-    LabelPairedCopyCaptionRegularIcon,
     LabelPairedBoxCaptionRegularIcon,
-    LabelPairedLightbulbCaptionRegularIcon,
-    LabelPairedGearCaptionRegularIcon,
+    LabelPairedChartLineCaptionRegularIcon,
     LabelPairedCircleInfoCaptionRegularIcon,
+    LabelPairedCopyCaptionRegularIcon,
+    LabelPairedGearCaptionRegularIcon,
+    LabelPairedLightbulbCaptionRegularIcon,
+    LabelPairedTerminalCaptionRegularIcon,
 } from '@deriv/quill-icons/LabelPaired';
 
 const TabsControl = observer(() => {
