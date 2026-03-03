@@ -17,6 +17,7 @@ const Layout = lazy(() => import('../components/layout'));
 const AppRoot = lazy(() => import('./app-root'));
 const AccountHub = lazy(() => import('../pages/account-hub'));
 const AdminHub = lazy(() => import('../pages/admin-hub'));
+const ErrorPage = lazy(() => import('../components/error-page'));
 
 const { TRANSLATIONS_CDN_URL, R2_PROJECT_NAME, CROWDIN_BRANCH_NAME } = process.env;
 // Only use CDN URL if all required variables are present and not empty
@@ -49,6 +50,11 @@ const router = createBrowserRouter(
                             </CoreStoreProvider>
                         </StoreProvider>
                     </TranslationProvider>
+                </SuspenseWrapper>
+            }
+            errorElement={
+                <SuspenseWrapper>
+                    <ErrorPage />
                 </SuspenseWrapper>
             }
         >
