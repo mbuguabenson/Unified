@@ -60,12 +60,12 @@ const AppHeader = observer(({ isAuthenticating }: TAppHeaderProps) => {
                                 has_effect
                                 text={localize('Manage funds')}
                                 onClick={() => {
-                                    let redirect_url = new URL(standalone_routes.wallets_transfer);
+                                    let redirect_url = new URL(standalone_routes.wallets_transfer, window.location.origin);
                                     const is_hub_enabled_country = hubEnabledCountryList.includes(
                                         client?.residence || ''
                                     );
                                     if (is_hub_enabled_country) {
-                                        redirect_url = new URL(standalone_routes.recent_transactions);
+                                        redirect_url = new URL(standalone_routes.recent_transactions, window.location.origin);
                                     }
                                     if (is_virtual) {
                                         redirect_url.searchParams.set('account', 'demo');
@@ -80,7 +80,7 @@ const AppHeader = observer(({ isAuthenticating }: TAppHeaderProps) => {
                             <Button
                                 primary
                                 onClick={() => {
-                                    const redirect_url = new URL(standalone_routes.cashier_deposit);
+                                    const redirect_url = new URL(standalone_routes.cashier_deposit, window.location.origin);
                                     if (currency) {
                                         redirect_url.searchParams.set('account', currency);
                                     }

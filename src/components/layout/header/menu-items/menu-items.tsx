@@ -30,17 +30,26 @@ export const MenuItems = observer(() => {
 
     // Use handleTraderHubRedirect for all links
     const getModifiedHref = (originalHref: string) => {
-        const redirect_url = new URL(originalHref);
+        try {
+            const redirect_url = new URL(originalHref, window.location.origin);
 
-        if (is_virtual) {
-            // For demo accounts, set the account parameter to 'demo'
-            redirect_url.searchParams.set('account', 'demo');
-        } else if (currency) {
-            // For real accounts, set the account parameter to the currency
-            redirect_url.searchParams.set('account', currency);
+            if (is_virtual) {
+                // For demo accounts, set the account parameter to 'demo'
+                redirect_url.searchParams.set('account', 'demo');
+            } else if (currency) {
+                // For real accounts, set the account parameter to the currency
+                redirect_url.searchParams.set('account', currency);
+            }
+
+            // Return relative path if the original was relative
+            if (originalHref.startsWith('/')) {
+                return `${redirect_url.pathname}${redirect_url.search}`;
+            }
+
+            return redirect_url.toString();
+        } catch (e) {
+            return originalHref;
         }
-
-        return redirect_url.toString();
     };
 
     // Filter out the Cashier link when the account is a wallet account
@@ -58,28 +67,28 @@ export const MenuItems = observer(() => {
             {is_logged_in &&
                 (isDesktop
                     ? filtered_items.map(({ as, href, icon, label }) => (
-                          <MenuItem
-                              as={as}
-                              className='app-header__menu'
-                              href={getModifiedHref(href)}
-                              key={label}
-                              leftComponent={icon}
-                          >
-                              <Text>{localize(label)}</Text>
-                          </MenuItem>
-                      ))
+                        <MenuItem
+                            as={as}
+                            className='app-header__menu'
+                            href={getModifiedHref(href)}
+                            key={label}
+                            leftComponent={icon}
+                        >
+                            <Text>{localize(label)}</Text>
+                        </MenuItem>
+                    ))
                     : // For mobile, show the first available item after filtering
-                      filtered_items.length > 0 && (
-                          <MenuItem
-                              as={filtered_items[0].as}
-                              className='flex gap-2 p-5'
-                              href={getModifiedHref(filtered_items[0].href)}
-                              key={filtered_items[0].label}
-                              leftComponent={filtered_items[0].icon}
-                          >
-                              <Text>{localize(filtered_items[0].label)}</Text>
-                          </MenuItem>
-                      ))}
+                    filtered_items.length > 0 && (
+                        <MenuItem
+                            as={filtered_items[0].as}
+                            className='flex gap-2 p-5'
+                            href={getModifiedHref(filtered_items[0].href)}
+                            key={filtered_items[0].label}
+                            leftComponent={filtered_items[0].icon}
+                        >
+                            <Text>{localize(filtered_items[0].label)}</Text>
+                        </MenuItem>
+                    ))}
         </>
     );
 });
@@ -121,7 +130,7 @@ export const TradershubLink = observer(() => {
     if (redirect_url_str) {
         // If we have a redirect_url_str, we still need to add the account parameter
         try {
-            const redirect_url = new URL(redirect_url_str);
+            const redirect_url = new URL(redirect_url_str, window.location.origin);
             if (is_virtual) {
                 // For demo accounts, set the account parameter to 'demo'
                 redirect_url.searchParams.set('account', 'demo');
