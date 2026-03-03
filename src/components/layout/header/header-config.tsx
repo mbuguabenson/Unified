@@ -4,6 +4,8 @@ import {
     LegacyCashierIcon as CashierLogo,
     LegacyHomeNewIcon as TradershubLogo,
     LegacyReportsIcon as ReportsLogo,
+    LegacyProfileXsIcon as UserIcon,
+    LegacySettings1pxIcon as AdminIcon,
 } from '@deriv/quill-icons/Legacy';
 import {
     DerivProductBrandLightDerivBotLogoWordmarkIcon as DerivBotLogo,
@@ -86,5 +88,17 @@ export const MenuItems: MenuItemsConfig[] = [
         href: standalone_routes.reports,
         icon: <ReportsLogo iconSize='xs' />,
         label: localize('Reports'),
+    },
+    {
+        as: 'a',
+        href: standalone_routes.account_hub,
+        icon: <UserIcon iconSize='xs' />,
+        label: localize('Account Hub'),
+    },
+    {
+        as: 'a',
+        href: standalone_routes.admin_hub,
+        icon: <AdminIcon iconSize='xs' />,
+        label: localize('Admin Hub'),
     },
 ];

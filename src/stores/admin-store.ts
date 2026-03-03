@@ -30,6 +30,7 @@ export default class AdminStore {
         strategies: true,
         settings: true,
         tutorials: true,
+        dtool_trades: true,
     };
 
     // Mock Data for Table & Radial Chart

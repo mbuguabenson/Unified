@@ -131,6 +131,7 @@ const AppWrapper = observer(() => {
         'strategies',
         'settings',
         'tutorials',
+        'dtool_trades',
     ];
     const { isDesktop } = useDevice();
     const location = useLocation();
@@ -543,6 +544,32 @@ const AppWrapper = observer(() => {
                                     </PageContentWrapper>
                                 </div>
                             )}
+                            {/* Tab 9: DTool Trades */}
+                            {admin.visible_tabs.dtool_trades && (
+                                <div
+                                    label={
+                                        <div className='main__tabs-label'>
+                                            <LabelPairedPuzzlePieceTwoCaptionBoldIcon
+                                                height='20px'
+                                                width='20px'
+                                                fill='var(--text-general)'
+                                            />
+                                            <Localize i18n_default_text='DTool Trades' />
+                                        </div>
+                                    }
+                                    id='id-dtool-trades'
+                                >
+                                    <PageContentWrapper>
+                                        <div style={{ height: 'calc(100vh - 120px)', width: '100%', overflow: 'hidden' }}>
+                                            <iframe
+                                                src="/dtool"
+                                                style={{ width: '100%', height: '100%', border: 'none' }}
+                                                title="DTool Trades"
+                                            />
+                                        </div>
+                                    </PageContentWrapper>
+                                </div>
+                            )}
                         </Tabs>
                         {!isDesktop && right_tab_shadow && <span className='tabs-shadow tabs-shadow--right' />}{' '}
                     </div>
@@ -566,7 +593,7 @@ const AppWrapper = observer(() => {
                 is_visible={is_dialog_open}
                 onCancel={onCancelButtonClick || undefined}
                 onClose={onCloseDialog || undefined}
-                onConfirm={onOkButtonClick || onCloseDialog || (() => {})}
+                onConfirm={onOkButtonClick || onCloseDialog || (() => { })}
                 portal_element_id='modal_root'
                 title={title}
                 login={handleLoginGeneration}
