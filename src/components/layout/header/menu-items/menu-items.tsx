@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { useFirebaseCountriesConfig } from '@/hooks/firebase/useFirebaseCountriesConfig';
 import { useStore } from '@/hooks/useStore';
@@ -7,6 +7,7 @@ import { handleTraderHubRedirect } from '@/utils/traders-hub-redirect';
 import { useTranslations } from '@deriv-com/translations';
 import { MenuItem, Text, useDevice } from '@deriv-com/ui';
 import { MenuItems as items, TRADERS_HUB_LINK_CONFIG } from '../header-config';
+import { useNavigate } from 'react-router-dom';
 import './menu-items.scss';
 
 export const MenuItems = observer(() => {
@@ -52,8 +53,17 @@ export const MenuItems = observer(() => {
         }
     };
 
+    const navigate = useNavigate();
+
+    const handleItemClick = (e: React.MouseEvent, href: string) => {
+        if (href.startsWith('/') && !href.startsWith('//')) {
+            e.preventDefault();
+            navigate(getModifiedHref(href));
+        }
+    };
+
     // Filter out the Cashier link when the account is a wallet account
-    const filtered_items = items.filter((item, index) => {
+    const filtered_items = items.filter((_, index) => {
         // Index 0 is the Cashier link
         if (index === 0 && has_wallet) {
             return false;
@@ -73,6 +83,7 @@ export const MenuItems = observer(() => {
                             href={getModifiedHref(href)}
                             key={label}
                             leftComponent={icon}
+                            onClick={(e: React.MouseEvent) => handleItemClick(e, href)}
                         >
                             <Text>{localize(label)}</Text>
                         </MenuItem>
@@ -85,6 +96,7 @@ export const MenuItems = observer(() => {
                             href={getModifiedHref(filtered_items[0].href)}
                             key={filtered_items[0].label}
                             leftComponent={filtered_items[0].icon}
+                            onClick={(e: React.MouseEvent) => handleItemClick(e, filtered_items[0].href)}
                         >
                             <Text>{localize(filtered_items[0].label)}</Text>
                         </MenuItem>

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useRouteError, isRouteErrorResponse } from 'react-router-dom';
 import Button from '@/components/shared_ui/button';
 import { Localize } from '@deriv-com/translations';
@@ -27,8 +26,11 @@ const ErrorPage = () => {
         }}>
             <h1>Oops!</h1>
             <p>Sorry, an unexpected error has occurred.</p>
-            <p style={{ color: '#ff4444', marginBottom: '20px' }}>
+            <p style={{ color: '#ff4444', marginBottom: '10px' }}>
                 <i>{errorMessage}</i>
+            </p>
+            <p style={{ marginBottom: '20px', fontSize: '0.8em', color: '#666' }}>
+                Path: {window.location.pathname}
             </p>
             <Button primary onClick={() => window.location.assign('/')}>
                 <Localize i18n_default_text='Go to Dashboard' />

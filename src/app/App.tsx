@@ -64,6 +64,8 @@ const router = createBrowserRouter(
             <Route path='callback' element={<CallbackPage />} />
             <Route path='account' element={<AccountHub />} />
             <Route path='admin-hub' element={<AdminHub />} />
+            {/* Catch-all route to handle internal navigation errors */}
+            <Route path='*' element={<AppRoot />} />
         </Route>
     ),
     {

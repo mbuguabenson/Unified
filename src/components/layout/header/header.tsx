@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import { observer } from 'mobx-react-lite';
 import PWAInstallButton from '@/components/pwa-install-button';
@@ -27,6 +28,7 @@ type TAppHeaderProps = {
 
 const AppHeader = observer(({ isAuthenticating }: TAppHeaderProps) => {
     const { isDesktop } = useDevice();
+    const navigate = useNavigate();
     const { isAuthorizing, activeLoginid } = useApiBase();
     const { client } = useStore() ?? {};
 
@@ -149,6 +151,7 @@ const AppHeader = observer(({ isAuthenticating }: TAppHeaderProps) => {
         is_tmb_enabled,
         hubEnabledCountryList,
         isTmbEnabled,
+        navigate,
     ]);
 
     if (client?.should_hide_header) return null;
