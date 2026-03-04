@@ -15,9 +15,7 @@ import './app-root.scss';
 
 const Layout = lazy(() => import('../components/layout'));
 const AppRoot = lazy(() => import('./app-root'));
-const AccountHub = lazy(() => import('../pages/account-hub'));
-const AdminHub = lazy(() => import('../pages/admin-hub'));
-const ErrorPage = lazy(() => import('../components/error-page'));
+const AppRoot = lazy(() => import('./app-root'));
 
 const { TRANSLATIONS_CDN_URL, R2_PROJECT_NAME, CROWDIN_BRANCH_NAME } = process.env;
 // Only use CDN URL if all required variables are present and not empty
@@ -62,10 +60,7 @@ const router = createBrowserRouter(
             <Route index element={<AppRoot />} />
             <Route path='endpoint' element={<Endpoint />} />
             <Route path='callback' element={<CallbackPage />} />
-            <Route path='account' element={<AccountHub />} />
-            <Route path='admin-hub' element={<AdminHub />} />
-            {/* Catch-all route to handle internal navigation errors */}
-            <Route path='*' element={<AppRoot />} />
+            <Route path='callback' element={<CallbackPage />} />
         </Route>
     ),
     {

@@ -111,14 +111,6 @@ export default defineConfig({
             'Access-Control-Allow-Origin': '*',
         },
         proxy: {
-            '/dtool': {
-                target: 'http://localhost:3000',
-                changeOrigin: true,
-            },
-            '/_next': {
-                target: 'http://localhost:3000',
-                changeOrigin: true,
-            },
             '/oauth2': {
                 target: 'https://oauth.deriv.com',
                 changeOrigin: true,
